@@ -1,14 +1,18 @@
+plugins {
+    id 'maven-publish'
+}
 apply plugin: 'com.android.library'
+group = 'com.github.TangPinJia'
 
 version = "1.0.0"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 32
 //    buildToolsVersion "25.0.3"
 
     defaultConfig {
         minSdkVersion 17
-        targetSdkVersion 28
+        targetSdkVersion 32
         versionCode 1
         versionName version
     }
@@ -22,33 +26,32 @@ android {
         abortOnError false
         checkReleaseBuilds false
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 
+//void configurePublication(Project project) {
+//    project.publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                groupId = 'com.github.TangPinJia'
+//                artifactId = 'JsBridge'
+//                version = '2.0.0'
+//
+//                from project.components.java
+//            }
+//        }
+//    }
+//}
 
-def siteUrl = 'https://github.com/lzyzsd/JsBridge'
-def gitUrl = 'https://github.com/lzyzsd/JsBridge.git'
-// apply plugin: 'com.github.dcendents.android-maven'
-group = "com.github.lzyzsd.jsbridge"
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-artifacts {
-    archives javadocJar
-    archives sourcesJar
-}
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
